@@ -1,0 +1,402 @@
+<head>
+  <title>siteace</title>
+</head>
+
+<body>
+</body>
+
+<template name="ApplicationLayout">
+	{{> yield "navbar"}}
+	{{> yield "main"}}	
+</template>	
+
+<template name="navBar">
+	<!-- navbar  - you will be putting the login functions here -->
+	<nav class="navbar navbar-default">
+	  	<div class="container-fluid">
+		  	<div class="navbar-header">			  	
+			</div>		    
+		    <div class="" id="main-nav">
+		    	<h1>Site Ace!</h1>
+		    	<ul class="nav nav-tabs main">		    		
+		    		<li><a href="/" title="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+		    		<li><a href="/website_list" title="post"><i class="fa fa-sticky-note "></i></a></li>
+		    		<li><a href="/user_Profile" title="profile"><i class="fa fa-user "></i></a></li>
+		    		<li><a href="#">{{> loginButtons}}</a></li>
+		    		<!-- {{#if notdetails}}	 -->	        			    	 		
+		    	 	{{> website_search}}
+		    	 	<!-- {{/if}} -->
+		    	</ul>	    			    
+		  	</div>
+		</div>  	
+	</nav>
+</template>
+
+<template name="welcome">
+	<div class="container">
+    	<div class="jumbotron">
+      		<h1 class="welcome">Welcome to SITE ACE!</h1>
+      		<div>
+      		<a href="/website_list" class="btn btn-info"><span class="glyphicon glyphicon-off"></span></a>
+      		</div>
+    	</div>
+  	</div>
+</template>	
+
+<template name="website_form">
+	<div class="container">	<!--start container -->
+		
+		<a class="btn btn-info js-toggle-website-form" href="#">
+	  		<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+	  		Add a Site...
+		</a>
+		
+		<div id="website_form" class="hidden_div">
+			<form class="js-save-website-form">
+			  	<div class="form-group">
+			    	<label for="url">Site address</label>
+			    	<input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+			    	<div class="auto-pop"><a href="#" class="js-auto-pop btn btn-info" title="AutoPop" data-toggle="popover" data-trigger="hover" data-content="Click to automatically populate title and description fields from your site url." data-placement="right"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span></a></div>
+			  	</div>
+			  	<div class="form-group">
+			    	<label for="title">Title</label>
+			   		<input type="text" class="form-control" id="title" placeholder="Mysite">
+			  	</div>
+			    <div class="form-group">
+			    	<label for="description">Description</label>
+			    	<input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+			  	</div>
+		  	  	<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+	</div>	<!--end container-->
+</template>
+
+<template name="website_search">
+	<!-- <a class="search" href="#"><span class="glyphicon glyphicon-search"></span></a> -->
+	<li id="search_form" class="">
+		<form class=" js-search navbar-form navbar-left" role="search">
+			<input type="text" class="form-control" id="siteSearch" placeholder="search...">
+			<i class="glyphicon glyphicon-search"></i>
+		</form>
+
+	</li>
+</template>	
+
+<!--To make reccomendations-->
+<Template name ="reccomendations">
+	<div class="Recholder reccomendations">	
+		{{#each reccomendations}}
+		<div id="{{_id}}" class="alert alert-success col-xs-12 col-md-8" role="alert">Site Ace! recommends.... <a class="js-recc" href="/website_details"> {{title}} </a><i class="fa fa-hand-o-left"></i></div>
+		{{/each}}
+	</div>	
+</template>	
+
+<!-- template that displays several website items -->
+<template name="website_list">
+			{{>reccomendations}}			
+	<div class="container">
+    	<span class="tags">Tags: <small> {{tags}}</small> {{#if filtering_sites}}<a href="#" class="js-unset-site-filter"> Show all images</a>{{/if}}</span>   		
+		{{> website_form}}
+			<ol>
+			{{#each websites}}
+			{{>website_item}}
+			{{/each}}
+			</ol>
+	</div>	<!--end container-->
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+<li id="{{_id}}" class="list-group col-xs-12">
+	<a href="{{url}}">{{title}}</a><span class="userpost"><a href="#"><img class="userpropic" src="https://placeimg.com/100/100/any" /></a> {{postedBy}}</span>
+	<p>
+		{{description}}
+	</p>
+	<a href="#" class="btn btn-default js-upvote">
+		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>		
+	</a>
+	<a href="#" class="btn btn-default js-downvote"> 
+		<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+	</a>
+	<!-- you will be putting your up and down vote buttons in here! -->
+	<p><a href="/website_details" class="btn btn-primary">MORE</a></p>
+	
+  		<li class="list-group-item">
+	    	<span class="badge">{{createdOn}}</span>
+	    	Created On 
+	 	</li>
+	 	<li class="list-group-item">
+	    	<span class="badge">{{upVotes}}</span>
+	    	upVotes
+	 	</li>
+	 	<li class="list-group-item">
+	    	<span class="badge">{{downVotes}}</span>
+	    	downVotes
+	 	</li>
+	 	<li class="list-group-item">
+	    	<span class="badge">{{votes}}</span>
+	    	Voted
+	 	</li>
+</li>
+</template>
+
+<template name="website_details_form">
+	
+	<form id="{{ID}}" class="js-add-comment">
+
+		<div class="media">
+	  		<div class="media-left media-middle">
+	    		<a href="/userProfile">
+	      			<img class="media-object userpropic" src="https://placeimg.com/100/100/any" alt="{{currenUser.username}}">
+	   			 </a>
+	  		</div>
+	 		<div class="media-body">
+	    		<h4 class="media-heading">{{username}}</h4>
+	    		<div class="form-group">
+			   		<input type="text" class="form-control" id="post" placeholder="comment">
+			  	</div>
+	  		</div>
+		</div>
+		<button type="submit" class="btn btn-info">Post</button>
+	</form>	
+	
+</template>
+
+<template name="website_details">
+	<div class="container">		
+		{{> website_details_item}}		
+		{{> website_details_form}}
+	</div><!--end container-->
+</template>	
+
+<template name="website_details_item">
+    	<span class="tags">Tags: <small> {{tags}}</small> {{#if filtering_sites}}<a href="#" class="js-unset-site-filter"> Show all images</a>{{/if}}	</span>
+   			
+		<div class="panel panel-default">
+		  	<!-- Default panel contents -->
+		  	<div class="panel-heading">
+		  		<a class="col-xs-10 col-sm-10 col-md-11 col-lg-11" href="{{url}}"> {{title}} </a>
+		  		<a href="/website_list" class="btn btn-info back-btn"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a>
+		  	</div>
+		  	<div class="panel-body">
+		    	<p class="col-xs-11 col-sm-11 col-md-11 col-lg-11">{{description}}</p>		    	
+		    	<span class="userpost">{{poster}}<a class="userpost" href="#"><img class="propic" src="https://placeimg.com/100/100/any" /></a></span>
+			</div>		  
+		</div><!--close panel-->
+		<!--Comments list with user profile img-->
+		<ul class="media-list">  <!-- List group -->
+			{{#each comments}}
+			<li class="media">
+	  			<div class="media-left media-middle">
+	    			<a  href="#">
+	      				<img class="media-object userpropic" src="https://placeimg.com/100/100/any" alt="">{{user}}
+	    			</a>
+	  			</div>
+	  			<div class="media-body">
+	    			<h4 class="media-heading"></h4>
+	    				<p>{{comment}}</p>
+	  			</div>
+			</li>
+			<hr>
+			{{/each}}			
+		</ul><!--end Comments and profile list group-->	
+		
+</template>	
+
+<template name="user_Profile">
+	{{#if currentUser}}
+	<div class="container">
+		<ul class="user_dash">
+			<li><a href="#"> <i class="fa fa-sticky-note"></i></a> {{postcount}} <a href=""> Post</a></li>
+			<li><a href="#"><i class="fa fa-quote-left"></i></a> {{commentsCount}} <a href="#"> Comments</a> </li>
+			<li><a href="/edit_user_profile"><i class="fa fa-user"></i></a> <a href="/edit_user_profile">Edit Profile</a></li>
+		</ul>
+		<hr class="dash_break">
+		<!--user Profile and Stats-->
+		<div class="js-user-stats user_stats">
+			<div class="user-img-group">
+				<div class="user-pic-view">
+					<img src="https://placeimg.com/100/100/any">
+					<input type="file" name="file" id="file" class="propicfile">
+					<label for="file" class="btn btn-info js-toggle-img-upload">
+	            		<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>	            		
+	        		</label>
+	        		<!-- <input type="file" class="form-control"> -->
+	        		
+	        	</div>
+			</div>
+			<ul class="list-group userStats">
+				<li>Joined: <span>{{createdOn}}</span></li>
+				<li>Born: <span>{{user.DOB}}</span></li>
+				<li>Lives In: <span>{{user.location}}</span></li>
+			</ul>
+		</div >
+		<!--About user panel-->	
+		<div class="js-user-panel user_panel">
+			<div class="panel panel-default">
+	  			<!-- Default panel contents -->
+			  	<div class="panel-heading panel-primary"><h3>{{currentUser.username}}</h3></div>
+			 	 <div class="panel-body">
+			    	<p>{{userAbout}}</p>
+			  	</div>
+			  <!-- List group -->
+			  	<ul class="list-group">
+			    	<li class="list-group-item">Gender: <span>{{user.gender}}</span></li>
+			    	<li class="list-group-item">Realationship Status: <span>{{user.relaStatus}}</span></li>
+			    	<li class="list-group-item">Likes: <span>{{user.Tags.likes}}</span></li>
+			    	<li class="list-group-item">Hobbies: <span>{{user.Tags.like}}</span></li>
+			  	</ul>
+			</div>
+		</div>	
+	</div>	
+	{{/if}}
+</template>
+
+<template name="edit_user_profile">
+	<div class="container">
+    <h1>{{currentUser.username}}</h1>
+  	<hr>
+	<div class="row">
+      <!-- left column -->
+    <div class="col-md-3">
+        <div class="text-center">
+          <img src="https://placeimg.com/100/100/any" class="avatar img-circle" alt="avatar">
+          	<h6>Change profile photo...</h6>          
+          	<input type="file" name="file" id="file" class="propicfile">
+			<label for="file" class="btn btn-info js-toggle-img-upload">
+	            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>	            		
+	        </label>
+        </div>
+    </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <div class="alert alert-info alert-dismissable">
+          <a class="panel-close close" data-dismiss="info">×</a> 
+          <i class="fa fa-coffee"></i>
+           Hi, <strong> {{currentUser.username}}</strong>. Complete your profile to find all kinds of interesting sites!
+        </div>
+        <h3>Personal info</h3>
+        
+        <form id="user_pro" class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" id="fname" placeholder="First Name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">About:</label>
+            <div class="col-lg-8">
+              <textarea class="form-control" form="user_pro" placeholder="Tell others about yourself." maximum="450"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" placeholder="example@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Time Zone:</label>
+            <div class="col-lg-8">
+              <div class="ui-select">
+                <select id="user_time_zone" class="form-control">
+                  <option value="Hawaii">(GMT-10:00) Hawaii</option>
+                  <option value="Alaska">(GMT-09:00) Alaska</option>
+                  <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+                  <option value="Arizona">(GMT-07:00) Arizona</option>
+                  <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+                  <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
+                  <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+                  <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" placeholder="Must have atleast 6 characters">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" placeholder="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" placeholder="verify password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="button" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-warning" value="Cancel">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
+</template>	
+
+<template name="register">
+	<div class="container">
+		<hr>
+		<div class="panel panel-default reg">
+  			<div class="panel-heading panel-primary"><h1>SignUp!</h1></div>
+  			<div class="panel-body reg">
+    			<form class="form-horzontal" id="registration">
+	    			<div class="form-group">
+	            		<label class="col-md-3 control-label">Username:</label>
+	            		<div class=" input-group col-md-8">
+	              			<input class="form-control" type="text" name="username" id="username" placeholder="Choose a username">
+	            		</div>
+	         		</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">email:</label>
+						<div class="input-group col-md-8">
+							<span class="input-group-addon">abc@example.com</span>
+					  		<input type="email" class="form-control" name="email" id="email">				
+						</div>	
+					</div>
+					<div class="form-group">
+			            <label class="col-md-3 control-label">Password:</label>
+			            <div class="input-group col-md-8">
+			              <input class="form-control" name="passfirst" id="passfirst" type="password">
+			            </div>
+			        </div>
+			        <div class="form-group">
+			            <label class="col-md-3 control-label">Confirm password:</label>
+			            <div class="input-group col-md-8">
+			              <input class="form-control" name="passVerify" id="passVerify" type="password">
+			            </div>
+			        </div>
+			        <div class="form-group">
+			            <label class="col-md-3 control-label"></label>
+			            <div class="input-group col-md-8 form-btn">
+			              <input type="submit" class="btn btn-primary col-md-4" value="Save Changes">
+			              <span></span>
+			              <input type="reset" class="btn btn-warning" value="Cancel">
+			        	</div>
+			        </div>
+	    		</form>
+  			</div>
+		</div>
+		<hr>	    
+	</div>    
+</template>
