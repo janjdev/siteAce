@@ -22,10 +22,8 @@
 		    		<li><a href="/" title="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
 		    		<li><a href="/website_list" title="post"><i class="fa fa-sticky-note "></i></a></li>
 		    		<li><a href="/user_Profile" title="profile"><i class="fa fa-user "></i></a></li>
-		    		<li><a href="#">{{> loginButtons}}</a></li>
-		    		<!-- {{#if notdetails}}	 -->	        			    	 		
+		    		<li><a href="#">{{> loginButtons}}</a></li>	    	 		
 		    	 	{{> website_search}}
-		    	 	<!-- {{/if}} -->
 		    	</ul>	    			    
 		  	</div>
 		</div>  	
@@ -33,19 +31,20 @@
 </template>
 
 <template name="welcome">
-	<div class="container">
-    	<div class="jumbotron">
-      		<h1 class="welcome">Welcome to SITE ACE!</h1>
-      		<div>
-      		<a href="/website_list" class="btn btn-info"><span class="glyphicon glyphicon-off"></span></a>
-      		</div>
-    	</div>
-  	</div>
+	<div class="welcome-wrapper">	
+		<div class="container">
+	    	<div class="jumbotron">
+	      		<h1 class="welcome">Welcome to SITE ACE!</h1>
+	      		<div>
+	      		<a href="/website_list" class="btn btn-info"><span class="glyphicon glyphicon-off"></span></a>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>  	
 </template>	
 
 <template name="website_form">
-	<div class="container">	<!--start container -->
-		
+	<div class="container">	<!--start container -->		
 		<a class="btn btn-info js-toggle-website-form" href="#">
 	  		<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
 	  		Add a Site...
@@ -73,7 +72,6 @@
 </template>
 
 <template name="website_search">
-	<!-- <a class="search" href="#"><span class="glyphicon glyphicon-search"></span></a> -->
 	<li id="search_form" class="">
 		<form class=" js-search navbar-form navbar-left" role="search">
 			<input type="text" class="form-control" id="siteSearch" placeholder="search...">
@@ -94,16 +92,18 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
+	<div class="wrapper">
 			{{>reccomendations}}			
-	<div class="container">
-    	<span class="tags">Tags: <small> {{tags}}</small> {{#if filtering_sites}}<a href="#" class="js-unset-site-filter"> Show all images</a>{{/if}}</span>   		
-		{{> website_form}}
+		<div class="container">
+    		<span class="tags">Tags: <small> {{tags}}</small> {{#if filtering_sites}}<a href="#" class="js-unset-site-filter"> Show all images</a>{{/if}}</span>   		
+			{{> website_form}}
 			<ol>
 			{{#each websites}}
 			{{>website_item}}
 			{{/each}}
 			</ol>
-	</div>	<!--end container-->
+		</div>	<!--end container-->
+	</div><!--end wrapper-->	
 </template>
 
 <!-- template that displays individual website entries -->
@@ -145,13 +145,13 @@
 	
 	<form id="{{ID}}" class="js-add-comment">
 
-		<div class="media">
+		<div class="media comment">
 	  		<div class="media-left media-middle">
 	    		<a href="/userProfile">
 	      			<img class="media-object userpropic" src="https://placeimg.com/100/100/any" alt="{{currenUser.username}}">
 	   			 </a>
 	  		</div>
-	 		<div class="media-body">
+	 		<div class="media-body comment">
 	    		<h4 class="media-heading">{{username}}</h4>
 	    		<div class="form-group">
 			   		<input type="text" class="form-control" id="post" placeholder="comment">
@@ -164,10 +164,12 @@
 </template>
 
 <template name="website_details">
-	<div class="container">		
-		{{> website_details_item}}		
-		{{> website_details_form}}
-	</div><!--end container-->
+	<div class="wrapper">
+		<div class="container">		
+			{{> website_details_item}}		
+			{{> website_details_form}}
+		</div><!--end container-->
+	</div><!--end wrapper-->	
 </template>	
 
 <template name="website_details_item">
@@ -221,9 +223,7 @@
 					<input type="file" name="file" id="file" class="propicfile">
 					<label for="file" class="btn btn-info js-toggle-img-upload">
 	            		<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>	            		
-	        		</label>
-	        		<!-- <input type="file" class="form-control"> -->
-	        		
+	        		</label>	        		
 	        	</div>
 			</div>
 			<ul class="list-group userStats">

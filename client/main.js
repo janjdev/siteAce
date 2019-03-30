@@ -8,26 +8,18 @@
   Router.route('/', function () {
   this.render('welcome', {
     to: 'main'
-    //data: function () { return Items.findOne({_id: this.params._id}); }
   });
 });
     
- //  Router.onBeforeAction(function() {
- //   if (! Meteor.userId()) {
- //     this.render('welcome', {
- //       to: 'main'
- //     });
- //   } else {
+
    Router.route('/website_list', function () {
      this.render('navBar',{ to: 'navbar'});
      this.render('website_list', { to: 'main'});
    });
- //   }
- // });
 
- Router.route('/website_details', function () {
-  this.render('navBar', {to: 'navbar' });    
-  this.render('website_details', {to: 'main'});
+  Router.route('/website_details', function () {
+    this.render('navBar', {to: 'navbar' });    
+    this.render('website_details', {to: 'main'});
    });
 
 Router.route('/user_Profile', function() {
@@ -88,21 +80,11 @@ if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
     else {
       return "anonymous";
       }
-    },
-    showsearch:function(){
-      return Session.set('not_details', true);
     }
-  });
-
-  Template.navBar.helpers({notdetails:function(){
-    return Session.get('not_details');
-    }
-  });  
-     
+  });     
    Template.website_item.helpers({username:function(){
     if (Meteor.user()){
       return Meteor.user()._id;
-        //return Meteor.user().emails[0].address;
     }
     else {
       return "";
@@ -242,12 +224,11 @@ Template.reccomendations.helpers({
       var tags = ss.split(/[\s,]+/);
       for(var i = 0; i < no_l;){ for(var j = 0; j < tags.length; j++){ if(no[i] === tags[j]){ var newar = tags.splice(j, 1); } } i++;}
       Session.set('tags', tags);
-      // console.log(Meteor.user());
       if (Meteor.user()){  
          var user = Meteor.user().username;  
         Websites.update({_id:website_id}, {$inc: {votes: 1}});
         Websites.update({_id:website_id}, {$inc:{upVotes: 1 }});
-        Websites.update({_id:website_id}, {$addToSet:{voted:{user: user}}});
+        Websites.update({_id:website_id}, {$addToSet:{voted:[{user: user}]}});
       }
       else{
         swal("Please sign in to vote!", "Oops...", "error");
@@ -286,7 +267,6 @@ Template.reccomendations.helpers({
     "click .btn-primary":function(event){
       var id = this._id;
       Session.set('site', Websites.findOne({_id:id}));
-      Session.set('not_details', undefined);
       }     
   });
 Template.website_details_form.events({
@@ -294,12 +274,14 @@ Template.website_details_form.events({
       var i = document.getElementsByClassName('js-add-comment');
       var theID = i[0].getAttribute('id');
       var post = event.target.post.value;
-      Session.get('site');      
+           
       if(Meteor.user()){     
           var user = Meteor.user().username;
           if (post != ""){
           Websites.update({_id: theID}, {$addToSet:{comments:{user:user, comment:post}}});
+          Session.set('site', Websites.findOne({_id:theID})); 
           $('input#post').removeClass('error');
+          $('input#post').val('');
         }
         else{
           $('input#post').addClass('error');   

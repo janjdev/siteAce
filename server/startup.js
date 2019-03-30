@@ -55,17 +55,7 @@ if (!Websites.findOne()){
 		voted: [],
 		comments: []
 	});
-}
-	
-// if (!ProfileImage.findOne()){
-// 	console.log("No profiles images yet. Creating starter data.");
-// 	ProfileImage.insert({
-// 		src: src,
-// 		createdOn: moment().format('MM DD YYYY'),
-// 		upLoadedby: 'anonymous',
-
-// 	});
-// }
+  }
 
 });
 

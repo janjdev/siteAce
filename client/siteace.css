@@ -2,14 +2,45 @@
 @import url(https://fonts.googleapis.com/css?family=Monofett|Marmelad);
 /*Document Styles
 --------------------------------------------------------------------------------------------------------------------------------*/
+html {
+    height: 100%;
+    width: 100%;
+}
+body{
+  height: 100%;
+}
 a {
     color: inherit;
 }
 a:hover, a:focus, a.active, a.visted {
     color: inherit;
 }
+.wrapper{
+  width: 100%;
+}
+.wrapper::after {
+  content: "";  
+  background-image: url(./13.jpg);
+  background-repeat: no-repeat;
+  opacity: 0.4; 
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  z-index: -1;   
+}
 /*Welcome and Nav
 --------------------------------------------------------------------------------------------------------------------------------*/
+div.welcome-wrapper{
+  height: 100%;
+  width: 100%;
+  background-image: url(./bg3.jpg);
+  background-repeat: no-repeat;
+}
+div.jumbotron{
+  background-color: transparent;
+}
 div.jumbotron div{
   width: 80px;
     height: 45px;
@@ -17,9 +48,6 @@ div.jumbotron div{
 }
 .nav-tabs > li > a {
     color: #3CE78B;
-}
-a.btn.btn-info {    
-    /*display: block;*/
 }
 span.glyphicon.glyphicon-off {
     font-size: 30px;
@@ -30,6 +58,7 @@ h1{
 .jumbotron h1{
   margin-top: 50px;
   font-size: 1em;
+  color: white;
 }
 i.glyphicon.glyphicon-search{
   position: absolute;
@@ -48,8 +77,8 @@ i.glyphicon.glyphicon-search{
 span.glyphicon.glyphicon-user {
     margin-right: 10px;
 }
-.main{
- 
+.navbar{
+ margin-bottom: 0;
 }
 .login{
   float: right;
@@ -114,6 +143,10 @@ span.glyphicon.glyphicon-user {
     background-color: #5CFFA7;
     border-radius: 50px;
 }
+span.tags {
+    margin-top: 20px;
+    display: block;
+}
 span.tags small {
     color: #e74c3c;
 }
@@ -128,8 +161,6 @@ a.js-auto-pop.btn.btn-info {
   font-family: 'Monofett', cursive;
   color:black;
   background-color: #76D3DE;
-  /*#3CE78B;*/  
-  /*3FB8AF;*/
   text-align: center;
   font-size: 3em;
 }
@@ -183,7 +214,19 @@ a.js-auto-pop.btn.btn-info {
     float: right;
     margin-top: -40px;
 }
-
+.media, .media-body {
+    background-color: white;
+    padding: 30px;
+    border-radius: 55px;
+}
+ .comment{
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+hr {
+    border-top: 1px solid #555;
+}
 /*User profile
 ------------------------------------------------------------------------------------------------------------*/
 ul.user_dash li {
@@ -276,7 +319,6 @@ ul.userStats li {
 }
 /*Register
 ----------------------------------------------------------------------------------------------------------------------*/
-
 .panel-default.reg {
     border-color: #ddd;
     box-shadow: 13px 17px 32px #ccc;
@@ -296,21 +338,8 @@ ul.userStats li {
 .alert{
   text-align: center;
 }
-
-
-
 /*Media Queris
 --------------------------------------------------------------------------------------------------------------------*/
-/*@media screen and (min-width: 768px) {
-    .reccomendations {
-        margin-left: 33.3%;
-    }
-}*/
-
-
-
-
-
 
 /*SweetAlert CSS
 ----------------------------------------------------------------------------------------------------------------------*/
